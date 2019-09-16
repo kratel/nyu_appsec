@@ -54,3 +54,4 @@ dkms.conf
 # Test files
 test*
 wordlist*
+temp*
