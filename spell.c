@@ -5,7 +5,7 @@
 #include "dictionary.h"
 
 int check_words(FILE* fp, hashmap_t hashtable[], char * misspelled[]){
-	//First Test
+	int num_misspelled = 0;
 	int i;
 	i = 1;
 	return i;
@@ -44,14 +44,12 @@ bool load_dictionary(const char* dictionary_file, hashmap_t hashtable[]){
 	word = w;
 	while ((c = fgetc(fp)) != EOF){
 		// Check if word is too long
-		if (counter > LENGTH)
-		{
+		if (counter > LENGTH){
 			/* might not be neccessary if dictionaries are expected to have words smaller than 45 chars*/
 			// Keep moving pointer to end of the word in file. This word won't be added to hashtable.
-			while (c != EOF && c == '\r' && c == '\n' && c == '\t' && c == ' ') {
+			while (c != EOF && c == '\r' && c == '\n' && c == '\t' && c == ' '){
 				c = fgetc(fp);
-				if (c == EOF)
-				{
+				if (c == EOF){
 					fclose(fp);
 					return true;
 				}
