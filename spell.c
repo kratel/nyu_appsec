@@ -22,16 +22,14 @@ bool load_dictionary(const char* dictionary_file, hashmap_t hashtable[]){
 	// Init bool var
 	bool loaded;
 	// Set all elements in hashtable to NULL
-	for (int i = 0; i < HASH_SIZE; i++)
-	{
+	for (int i = 0; i < HASH_SIZE; i++){
 		hashtable[i]= NULL;
 	}
 	// Try to open dictionary
 	FILE *fp;
 	fp = fopen(dictionary_file, "r");
 	// If dictionary could not be opened return with false
-	if (!fp)
-	{
+	if (!fp){
 		loaded = false;
 		return loaded;
 	}
