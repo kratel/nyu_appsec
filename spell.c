@@ -47,6 +47,7 @@ bool load_dictionary(const char* dictionary_file, hashmap_t hashtable[]){
 		if (counter > LENGTH)
 		{
 			/* might not be neccessary if dictionaries are expected to have words smaller than 45 chars*/
+			// Keep moving pointer to end of the word in file. This word won't be added to hashtable.
 			while (c != EOF && c == '\r' && c == '\n' && c == '\t' && c == ' ') {
 				c = fgetc(fp);
 				if (c == EOF)
