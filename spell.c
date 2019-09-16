@@ -32,6 +32,10 @@ int check_words(FILE* fp, hashmap_t hashtable[], char * misspelled[]){
 	char* word;
 	word = w;
 	while ((c = fgetc(fp)) != EOF){
+		if (num_misspelled >= MAX_MISSPELLED){
+			// Reached max limit
+			break;
+		}
 		// Check if word is too long
 		if (counter > LENGTH){
 			// Keep moving pointer to end of the word in file. This word is counted as misspelled.
@@ -129,12 +133,17 @@ bool load_dictionary(const char* dictionary_file, hashmap_t hashtable[]){
 		return loaded;
 	}
 	int counter = 0;
+	int hashbucketctr = 0;
 	int c;
 	int bucket;
 	char w[LENGTH];
 	char* word;
 	word = w;
 	while ((c = fgetc(fp)) != EOF){
+		if (hashbucketctr >= HASH_SIZE){
+			// Reached max number of buckets break
+			break;
+		}
 		// Check if word is too long
 		if (counter > LENGTH){
 			/* might not be neccessary if dictionaries are expected to have words smaller than 45 chars*/
@@ -157,6 +166,9 @@ bool load_dictionary(const char* dictionary_file, hashmap_t hashtable[]){
 				word[counter] = '\0';
 				strcpy(new_node->word,word);
 				bucket = hash_function(word);
+				if (hashtable[bucket] == NULL){
+					hashbucketctr++;
+				}
 				if (hashtable[bucket] != NULL){
 					new_node->next = hashtable[bucket];
 				}
