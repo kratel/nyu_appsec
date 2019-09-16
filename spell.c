@@ -81,22 +81,25 @@ bool check_word(const char* word, hashmap_t hashtable[]){
 		e--;
 	}
 	modword[strlen(word) - (pos_to_last + pos_to_first)] = '\0';
-	printf("Word converted from: %s to %s\n", word, nb);
+	// printf("Word converted from: %s to %s\n", word, nb);
 	int bucket;
 	bucket = hash_function(nb);
 	hashmap_t cursor = hashtable[bucket];
 	while(cursor){
 		// check if word is at cursor
-		printf("checking if word matches cursor: %s\n", cursor->word);
+		// printf("checking if word matches cursor: %s\n", cursor->word);
 		if (strcmp(cursor->word, nb) == 0){
-			printf("\tMatched original\n");
+			// printf("\tMatched original\n");
 			return true;
 		} else {
+			char tword[LENGTH];
+			char *tw = tword;
 			for(int i = 0; i < strlen(nb) - 1; i++){
-				nb[i] = tolower(nb[i]);
+				tw[i] = tolower(nb[i]);
 			}
-			if( strcmp(nb, cursor->word) == 0){
-				printf("\tMatched lowercase\n");
+			tw[strlen(nb)] = '\0';
+			if( strcmp(tw, cursor->word) == 0){
+				// printf("\tMatched lowercase\n");
 				return true;
 			}
 		}
