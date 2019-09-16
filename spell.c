@@ -5,6 +5,25 @@
 #include <ctype.h>
 #include "dictionary.h"
 
+
+char *strip_punct(char *word){
+	// must use b as new word start.
+	char *b = word;
+	while (ispunct(*b)){
+		b++;
+	}
+	// Strip puncation at end of word
+	//  pointer to last char in word
+	char *e = word + strlen(word) - 1;
+	//  keep going backwards setting pointer to 0 as punct is found
+	//. make sure you don't go past the new beggining of word.
+	while (ispunct(*e) && b < e) {
+		*e = 0;
+		e--;
+	}
+	return b;
+}
+
 int check_words(FILE* fp, hashmap_t hashtable[], char * misspelled[]){
 	int num_misspelled = 0;
 	int counter = 0;
@@ -39,11 +58,12 @@ int check_words(FILE* fp, hashmap_t hashtable[], char * misspelled[]){
 			if (c == '\r' || c == '\n' || c == '\t' || c == ' '){
 				/* check word */
 				word[counter] = '\0';
-				if (!check_word(word, hashtable)){
+				char *b = strip_punct(word);
+				if (!check_word(b, hashtable)){
 					// add to misspelled array
 					// need to malloc memory
 					misspelled[num_misspelled] = (char *) malloc((LENGTH + 1) * sizeof(char));
-					strcpy(misspelled[num_misspelled],word);
+					strcpy(misspelled[num_misspelled],b);
 					num_misspelled++;
 				}
 				word[0] = '\0';
@@ -55,53 +75,38 @@ int check_words(FILE* fp, hashmap_t hashtable[], char * misspelled[]){
 			}
 		}
 	}
+	// printf("%d\n", num_misspelled);
 	return num_misspelled;
 }
 
 bool check_word(const char* word, hashmap_t hashtable[]){
-	// Strip punctuation at beginning of word
-	char modword[LENGTH];
-	char *nb = modword;
-	// must use b as new word start.
-	const char *b = word;
-	int pos_to_first = 0;
-	while (ispunct(*b)){
-		pos_to_first++;
-		b++;
-	}
-	strcpy(nb, b);
-	// Strip puncation at end of word
-	//  pointer to last char in word
-	const char *e = word + strlen(word) - 1;
-	int pos_to_last = 0;
-	//  keep going backwards setting pointer to 0 as punct is found
-	//. make sure you don't go past the new beggining of word.
-	while (ispunct(*e) && b < e) {
-		pos_to_last++;
-		e--;
-	}
-	modword[strlen(word) - (pos_to_last + pos_to_first)] = '\0';
 	// printf("Word converted from: %s to %s\n", word, nb);
 	int bucket;
-	bucket = hash_function(nb);
+	bucket = hash_function(word);
 	hashmap_t cursor = hashtable[bucket];
 	while(cursor){
 		// check if word is at cursor
 		// printf("checking if word matches cursor: %s\n", cursor->word);
-		if (strcmp(cursor->word, nb) == 0){
+		if (strcmp(cursor->word, word) == 0){
 			// printf("\tMatched original\n");
 			return true;
-		} else {
-			char tword[LENGTH];
-			char *tw = tword;
-			for(int i = 0; i < strlen(nb) - 1; i++){
-				tw[i] = tolower(nb[i]);
-			}
-			tw[strlen(nb)] = '\0';
-			if( strcmp(tw, cursor->word) == 0){
-				// printf("\tMatched lowercase\n");
-				return true;
-			}
+		}
+		cursor = cursor->next;
+	}
+	char tword[LENGTH];
+	char *tw = tword;
+	for(int i = 0; i < strlen(word); i++){
+		tw[i] = tolower(word[i]);
+	}
+	tw[strlen(word)] = '\0';
+	bucket = hash_function(tw);
+	cursor = hashtable[bucket];
+	while(cursor){
+		// check if word is at cursor
+		// printf("checking if word matches cursor: %s\n", cursor->word);
+		if (strcmp(cursor->word, tw) == 0){
+			// printf("\tMatched lowercase\n");
+			return true;
 		}
 		cursor = cursor->next;
 	}
