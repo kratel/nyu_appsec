@@ -24,6 +24,16 @@ char *strip_punct(char *word){
 	return b;
 }
 
+char *wordtolower(const char *word){
+	char tword[LENGTH + 1];
+	char *tw = tword;
+	for(int i = 0; i < strlen(word); i++){
+		tw[i] = tolower(word[i]);
+	}
+	tw[strlen(word)] = '\0';
+	return tw;
+}
+
 int check_words(FILE* fp, hashmap_t hashtable[], char * misspelled[]){
 	int num_misspelled = 0;
 	int counter = 0;
@@ -38,23 +48,17 @@ int check_words(FILE* fp, hashmap_t hashtable[], char * misspelled[]){
 		}
 		// Check if word is too long
 		if (counter > LENGTH){
-			// Keep moving pointer to end of the word in file. This word is counted as misspelled.
+			// Keep moving pointer to end of the word in file. This word is truncated and counted as misspelled.
+			word[counter] = '\0';
+			misspelled[num_misspelled] = (char *) malloc((LENGTH + 1) * sizeof(char));
+			strcpy(misspelled[num_misspelled],word);
+			num_misspelled++;
 			while (c != EOF && c != '\r' && c != '\n' && c != '\t' && c != ' '){
-				word[counter] = c;
-				counter++;
 				c = fgetc(fp);
 				if (c == EOF){
-					word[counter] = '\0';
-					misspelled[num_misspelled] = (char *) malloc((counter + 1) * sizeof(char));
-					strcpy(misspelled[num_misspelled],word);
-					num_misspelled++;
 					return num_misspelled;
 				}
 			}
-			word[counter] = '\0';
-			misspelled[num_misspelled] = (char *) malloc((counter + 1) * sizeof(char));
-			strcpy(misspelled[num_misspelled],word);
-			num_misspelled++;
 			word[0] = '\0';
 			counter = 0;
 		} else {
@@ -97,12 +101,9 @@ bool check_word(const char* word, hashmap_t hashtable[]){
 		}
 		cursor = cursor->next;
 	}
-	char tword[LENGTH];
+	char tword[LENGTH + 1];
 	char *tw = tword;
-	for(int i = 0; i < strlen(word); i++){
-		tw[i] = tolower(word[i]);
-	}
-	tw[strlen(word)] = '\0';
+	tw = wordtolower(word);
 	bucket = hash_function(tw);
 	cursor = hashtable[bucket];
 	while(cursor){
@@ -118,8 +119,6 @@ bool check_word(const char* word, hashmap_t hashtable[]){
 }
 
 bool load_dictionary(const char* dictionary_file, hashmap_t hashtable[]){
-	// Init bool var
-	bool loaded;
 	// Set all elements in hashtable to NULL
 	for (int i = 0; i < HASH_SIZE; i++){
 		hashtable[i]= NULL;
@@ -129,14 +128,13 @@ bool load_dictionary(const char* dictionary_file, hashmap_t hashtable[]){
 	fp = fopen(dictionary_file, "r");
 	// If dictionary could not be opened return with false
 	if (!fp){
-		loaded = false;
-		return loaded;
+		return false;
 	}
 	int counter = 0;
 	int hashbucketctr = 0;
 	int c;
 	int bucket;
-	char w[LENGTH];
+	char w[LENGTH + 1];
 	char* word;
 	word = w;
 	while ((c = fgetc(fp)) != EOF){
