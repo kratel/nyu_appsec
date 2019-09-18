@@ -9,7 +9,7 @@ dictionary.o: dictionary.c
 	gcc -Wall -c dictionary.c dictionary.h
 
 spell.o: spell.c
-	gcc -Wall -c spell.c
+	gcc -Wall -c -fprofile-arcs -ftest-coverage spell.c
 
 test.o: test_main.c
 	gcc -Wall -c test_main.c

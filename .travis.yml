@@ -1,6 +1,14 @@
 language: c
 compiler: gcc
+env:
+  global:
+    - CODECOV_TOKEN=:uuid-repo-token
+
 before_install:
 - make get-deps
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
+
 script: 
   - make test
