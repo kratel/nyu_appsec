@@ -5,6 +5,8 @@
 #define DICTIONARY "wordlist.txt"
 #define TESTDICT "test_wordlist.txt"
 #define TESTDICTLONG "test_wordlist2.txt"
+#define TESTINPUT "test1.txt"
+#define TESTINPUT "test2.txt"
 
 START_TEST(test_dictionary_normal)
 {
@@ -19,9 +21,6 @@ START_TEST(test_dictionary_normal)
     {
         ck_assert(strcmp(expected[i],hashtable[hash_function(expected[i])]->word) == 0);
     }
-    // Here we can test if certain words ended up in certain buckets
-    // to ensure that our load_dictionary works as intended. I leave
-    // this as an exercise.
 }
 END_TEST
 
@@ -46,7 +45,7 @@ START_TEST(test_check_words_normal)
     expected[1] = "skyn";
     expected[2] = "betta";
     char *misspelled[MAX_MISSPELLED];
-    FILE *fp = fopen("test1.txt", "r");
+    FILE *fp = fopen(TESTINPUT, "r");
     int num_misspelled = check_words(fp, hashtable, misspelled);
     ck_assert(num_misspelled == 3);
     bool test = strlen(misspelled[0]) == strlen(expected[0]);
