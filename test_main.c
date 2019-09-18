@@ -6,7 +6,7 @@
 #define TESTDICT "test_wordlist.txt"
 #define TESTDICTLONG "test_wordlist2.txt"
 #define TESTINPUT "test1.txt"
-#define TESTINPUT "test2.txt"
+#define TESTINPUT2 "test2.txt"
 
 START_TEST(test_dictionary_normal)
 {
