@@ -1,5 +1,6 @@
 default: prog
-
+CFLAGS:=-fprofile-arcs -ftest-coverage
+LFLAGS:=-lgcov --coverage
 get-deps:
 	# Assuming Debian or Ubuntu here
 	sudo apt-get update
@@ -9,7 +10,7 @@ dictionary.o: dictionary.c
 	gcc -Wall -c dictionary.c dictionary.h
 
 spell.o: spell.c
-	gcc -Wall -c -fprofile-arcs -ftest-coverage spell.c
+	gcc -Wall -c $(CFLAGS) spell.c
 
 test.o: test_main.c
 	gcc -Wall -c test_main.c
@@ -20,10 +21,10 @@ main.o: main.c
 UNAME_S := $(shell uname -s)
 test: dictionary.o spell.o test_main.o
 ifeq ($(UNAME_S),Linux)
-	gcc -Wall -o run_test_main test_main.o spell.o dictionary.o -lcheck -lm -lrt -lpthread -lsubunit
+	gcc -Wall -o $(LFLAGS) run_test_main test_main.o spell.o dictionary.o -lcheck -lm -lrt -lpthread -lsubunit
 endif
 ifeq ($(UNAME_S),Darwin)
-	gcc -Wall -o run_test_main test_main.o spell.o dictionary.o -lcheck -lm -lpthread
+	gcc -Wall -o $(LFLAGS) run_test_main test_main.o spell.o dictionary.o -lcheck -lm -lpthread
 endif
 	./run_test_main
 
