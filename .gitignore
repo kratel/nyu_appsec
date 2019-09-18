@@ -52,6 +52,6 @@ Mkfile.old
 dkms.conf
 
 # Test files
-test*
-wordlist*
+out*
 temp*
+run*

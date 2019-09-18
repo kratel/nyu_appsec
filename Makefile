@@ -19,12 +19,12 @@ main.o: main.c
 UNAME_S := $(shell uname -s)
 test: dictionary.o spell.o test_main.o
 ifeq ($(UNAME_S),Linux)
-	gcc -Wall -o test_main test_main.o spell.o dictionary.o -lcheck -lm -lrt -lpthread -lsubunit
+	gcc -Wall -o run_test_main test_main.o spell.o dictionary.o -lcheck -lm -lrt -lpthread -lsubunit
 endif
 ifeq ($(UNAME_S),Darwin)
-	gcc -Wall -o test_main test_main.o spell.o dictionary.o -lcheck -lm -lpthread
+	gcc -Wall -o run_test_main test_main.o spell.o dictionary.o -lcheck -lm -lpthread
 endif
-	./test_main
+	./run_test_main
 
 prog: dictionary.o spell.o main.o
 	gcc -Wall -o spell_check dictionary.o spell.o main.o
