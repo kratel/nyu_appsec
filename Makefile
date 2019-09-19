@@ -40,8 +40,13 @@ endif
 prog: dictionary.o spell.o main.o
 	gcc -Wall -o spell_check dictionary.o spell.o main.o
 
+.PHONY: clean cleancov cleanall
+
 clean:
 	rm dictionary.o spell.o main.o test_main.o check_spell.o
+
+cleancov:
+	rm *.gcda *.gcno coverage*.html
 
 cleanall:clean
 	rm spell_check
