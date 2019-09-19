@@ -20,7 +20,7 @@ main.o: main.c
 	gcc -Wall -c main.c
 
 UNAME_S := $(shell uname -s)
-test: dictionary.o spell.o test_main.o
+test: dictionary.o spell.o test.o
 ifeq ($(UNAME_S),Linux)
 	gcc -Wall -o run_test_main test_main.o spell.o dictionary.o -lcheck -lm -lrt -lpthread -lsubunit $(LFLAGS)
 endif
