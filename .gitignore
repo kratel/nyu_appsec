@@ -55,3 +55,8 @@ dkms.conf
 out*
 temp*
 run*
+
+# Coverage Files
+*.gcda
+*.gcno
+coverage*

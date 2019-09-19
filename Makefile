@@ -1,6 +1,7 @@
 default: prog
 CFLAGS:=-fprofile-arcs -ftest-coverage
 LFLAGS:=-lgcov --coverage
+MAC_LFLAGS:=--coverage
 get-deps:
 	# Assuming Debian or Ubuntu here
 	sudo apt-get update
@@ -24,9 +25,17 @@ ifeq ($(UNAME_S),Linux)
 	gcc -Wall -o run_test_main test_main.o spell.o dictionary.o -lcheck -lm -lrt -lpthread -lsubunit $(LFLAGS)
 endif
 ifeq ($(UNAME_S),Darwin)
-	gcc -Wall -o run_test_main test_main.o spell.o dictionary.o -lcheck -lm -lpthread $(LFLAGS)
+	gcc -Wall -o run_test_main test_main.o spell.o dictionary.o -lcheck -lm -lpthread $(MAC_LFLAGS)
 endif
 	./run_test_main
+
+report: spell.gcda spell.gcno
+ifeq ($(UNAME_S),Linux)
+	@echo "Detected Linux, Travis will trigger coverage bash script."
+endif
+ifeq ($(UNAME_S),Darwin)
+	gcovr -r . --html --html-details -o coverage_report.html
+endif
 
 prog: dictionary.o spell.o main.o
 	gcc -Wall -o spell_check dictionary.o spell.o main.o
