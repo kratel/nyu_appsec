@@ -11,7 +11,7 @@ dictionary.o: dictionary.c
 	gcc -Wall -c dictionary.c dictionary.h
 
 spell.o: spell.c
-	gcc -Wall -c $(CFLAGS) spell.c
+	gcc -Wall -c spell.c
 
 test.o: test_main.c
 	gcc -Wall -c test_main.c
@@ -22,9 +22,11 @@ main.o: main.c
 UNAME_S := $(shell uname -s)
 test: dictionary.o spell.o test.o
 ifeq ($(UNAME_S),Linux)
+	gcc -Wall -c $(CFLAGS) spell.c
 	gcc -Wall -o run_test_main test_main.o spell.o dictionary.o -lcheck -lm -lrt -lpthread -lsubunit $(LFLAGS)
 endif
 ifeq ($(UNAME_S),Darwin)
+	gcc -Wall -c $(CFLAGS) spell.c
 	gcc -Wall -o run_test_main test_main.o spell.o dictionary.o -lcheck -lm -lpthread $(MAC_LFLAGS)
 endif
 	./run_test_main
@@ -40,10 +42,10 @@ endif
 prog: dictionary.o spell.o main.o
 	gcc -Wall -o spell_check dictionary.o spell.o main.o
 
-.PHONY: clean cleancov cleanall
+.PHONY: clean cleancov cleanall spell.o
 
 clean:
-	rm dictionary.o spell.o main.o test_main.o check_spell.o
+	rm dictionary.o spell.o main.o test_main.o
 
 cleancov:
 	rm *.gcda *.gcno coverage*.html
