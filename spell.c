@@ -61,21 +61,26 @@ int check_words(FILE* fp, hashmap_t hashtable[], char * misspelled[]){
 			}
 			word[0] = '\0';
 			counter = 0;
+		}
+		/* check if c is \r \n \t or whitespace which means end of word
+		   and that counter is not 0 meaning we have a word. */
+		if (counter != 0 && (c == '\r' || c == '\n' || c == '\t' || c == ' ')){
+			/* check word */
+			word[counter] = '\0';
+			char *b = strip_punct(word);
+			if (!check_word(b, hashtable)){
+				// add to misspelled array
+				// need to malloc memory
+				misspelled[num_misspelled] = (char *) malloc((LENGTH + 1) * sizeof(char));
+				strcpy(misspelled[num_misspelled],b);
+				num_misspelled++;
+			}
+			word[0] = '\0';
+			counter = 0;
 		} else {
-			/* check if c is \r \n \t or whitespace which means end of word */
-			if (c == '\r' || c == '\n' || c == '\t' || c == ' '){
-				/* check word */
-				word[counter] = '\0';
-				char *b = strip_punct(word);
-				if (!check_word(b, hashtable)){
-					// add to misspelled array
-					// need to malloc memory
-					misspelled[num_misspelled] = (char *) malloc((LENGTH + 1) * sizeof(char));
-					strcpy(misspelled[num_misspelled],b);
-					num_misspelled++;
-				}
-				word[0] = '\0';
-				counter = 0;
+			if (counter == 0 && (c == '\r' || c == '\n' || c == '\t' || c == ' ')){
+				/* Don't start building a word until we get an appropriate char */
+				continue;
 			} else {
 				/* add to word */
 				word[counter] = c;
@@ -155,24 +160,29 @@ bool load_dictionary(const char* dictionary_file, hashmap_t hashtable[]){
 			}
 			word[0] = '\0';
 			counter = 0;
+		}
+		/* check if c is \r \n \t or whitespace which means end of word
+		   and that counter is not 0 meaning we have a word. */
+		if (counter != 0 && (c == '\r' || c == '\n' || c == '\t' || c == ' ')){
+			/* add word in */
+			hashmap_t new_node = (hashmap_t) malloc(sizeof(node));
+			new_node->next = NULL;
+			word[counter] = '\0';
+			strcpy(new_node->word,word);
+			bucket = hash_function(word);
+			if (hashtable[bucket] == NULL){
+				hashbucketctr++;
+			}
+			if (hashtable[bucket] != NULL){
+				new_node->next = hashtable[bucket];
+			}
+			hashtable[bucket] = new_node;
+			word[0] = '\0';
+			counter = 0;
 		} else {
-			/* check if c is \r \n \t or whitespace which means end of word */
-			if (c == '\r' || c == '\n' || c == '\t' || c == ' '){
-				/* add word in */
-				hashmap_t new_node = (hashmap_t) malloc(sizeof(node));
-				new_node->next = NULL;
-				word[counter] = '\0';
-				strcpy(new_node->word,word);
-				bucket = hash_function(word);
-				if (hashtable[bucket] == NULL){
-					hashbucketctr++;
-				}
-				if (hashtable[bucket] != NULL){
-					new_node->next = hashtable[bucket];
-				}
-				hashtable[bucket] = new_node;
-				word[0] = '\0';
-				counter = 0;
+			if (counter == 0 && (c == '\r' || c == '\n' || c == '\t' || c == ' ')){
+				/* Don't start building a word until we get an appropriate char */
+				continue;
 			} else {
 				/* add to word */
 				word[counter] = c;
