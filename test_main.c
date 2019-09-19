@@ -16,7 +16,6 @@ START_TEST(test_dictionary_normal)
     expected[0] = "first";
     expected[1] = "second";
     expected[2] = "third";
-    int buckets[3];
     for (int i = 0; i < 3; ++i)
     {
         ck_assert(strcmp(expected[i],hashtable[hash_function(expected[i])]->word) == 0);
