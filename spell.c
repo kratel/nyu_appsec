@@ -68,7 +68,10 @@ int check_words(FILE* fp, hashmap_t hashtable[], char * misspelled[]){
 			/* check word */
 			word[counter] = '\0';
 			char *b = strip_punct(word);
-			if (!check_word(b, hashtable)){
+			if (strlen(b) == 0){
+				// Word was actually pure punctation, ignore, not misspelled.
+				;
+			} else if (!check_word(b, hashtable)){
 				// add to misspelled array
 				// need to malloc memory
 				misspelled[num_misspelled] = (char *) malloc((LENGTH + 1) * sizeof(char));
