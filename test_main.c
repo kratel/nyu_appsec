@@ -31,7 +31,8 @@ START_TEST(test_check_word_normal)
     const char* punctuation_word_2 = "pl.ace";
     ck_assert(check_word(correct_word, hashtable));
     ck_assert(!check_word(punctuation_word_2, hashtable));
-    // Test here: What if a word begins and ends with "?
+    // Test here: What if a word begins and ends with "? 
+    // ^ Invalid request check_word does not modify the character and quotes would have been stripped out before.
 }
 END_TEST
 
