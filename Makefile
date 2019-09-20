@@ -21,6 +21,12 @@ main.o: main.c
 
 UNAME_S := $(shell uname -s)
 test: dictionary.o spell.o test.o
+ifneq (,$(wildcard *.gcda))
+	rm *.gcda
+endif
+ifneq (,$(wildcard *.gcno))
+	rm *.gcno
+endif
 ifeq ($(UNAME_S),Linux)
 	gcc -Wall -c $(CFLAGS) spell.c
 	gcc -Wall -o run_test_main test_main.o spell.o dictionary.o -lcheck -lm -lrt -lpthread -lsubunit $(LFLAGS)
