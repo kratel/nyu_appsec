@@ -92,8 +92,55 @@ int check_words(FILE* fp, hashmap_t hashtable[], char * misspelled[]){
 	return num_misspelled;
 }
 
+bool is_valid_num_string(const char* num_string){
+	int l = strlen(num_string);
+	char c;
+	for (int i = 0; i <= l; ++i){
+		if (isdigit(num_string[i])){
+			continue;
+		}
+		if (ispunct(num_string[i]) && i != 0){
+			c = num_string[i];
+			// Check if valid punct
+			if (c == '+' || c == '-' || c == '*' || c == '/' || c == '^' || c == ',' || c == '.' || c == '(' || c == ')' || c == '=' || c == '!'){
+				continue;
+			} else {
+				return false;
+			}
+		}
+		if (isalpha(num_string[i]) && i != l){
+			c = num_string[i];
+			/* Check if valid letter: 
+				'e' and 'E' for scientific notation shorthand
+				'i' for imaginary*/
+			if (c == 'e' || c == 'E' || c == 'i'){
+				continue;
+			} else {
+				return false;
+			}
+		}
+		if (isalpha(num_string[i]) && i == l){
+			c = num_string[i];
+			// If a letter is the last char then it can only be 'i'
+			if (c == 'i'){
+				continue;
+			} else {
+				return false;
+			}
+		}
+	}
+	return true;
+}
+
 bool check_word(const char* word, hashmap_t hashtable[]){
 	// printf("Word converted from: %s to %s\n", word, nb);
+	if (isdigit(word[0])){
+		/* if first char is a digit treat this word as a number */
+		if (is_valid_num_string(word)){
+			return true;
+		}
+		// if not then don't return false, just in case a leet-speak dictionary was used.
+	}
 	int bucket;
 	bucket = hash_function(word);
 	hashmap_t cursor = hashtable[bucket];
