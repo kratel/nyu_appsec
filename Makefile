@@ -51,11 +51,38 @@ prog: dictionary.o spell.o main.o
 .PHONY: clean cleancov cleanall spell.o
 
 clean:
-	rm dictionary.o spell.o main.o test_main.o
+ifneq (,$(wildcard dictionary.o))
+	rm dictionary.o
+endif
+ifneq (,$(wildcard spell.o))
+	rm spell.o
+endif
+ifneq (,$(wildcard main.o))
+	rm main.o
+endif
+ifneq (,$(wildcard test_main.o))
+	rm test_main.o
+endif
+ifneq (,$(wildcard *.h.gch))
+	rm *.h.gch
+endif
 
 cleancov:
-	rm *.gcda *.gcno coverage*.html
+ifneq (,$(wildcard *.gcda))
+	rm *.gcda
+endif
+ifneq (,$(wildcard *.gcno))
+	rm *.gcno
+endif
+ifneq (,$(wildcard coverage*.html))
+	rm coverage*.html
+endif
 
-cleanall:clean
+cleanall: cleancov clean
+ifneq (,$(wildcard spell_check))
 	rm spell_check
+endif
+ifneq (,$(wildcard run_test_main))
+	rm run_test_main
+endif
 	
