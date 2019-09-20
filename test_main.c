@@ -79,6 +79,35 @@ START_TEST(test_check_words_irregular_spacing)
 }
 END_TEST
 
+START_TEST(test_check_word_numbers)
+{
+    hashmap_t hashtable[HASH_SIZE];
+    load_dictionary(DICTIONARY, hashtable);
+    const char* correct_number = "22";
+    const char* correct_number_dec = "3.14934";
+    const char* correct_number_sep1 = "1,200,468";
+    const char* correct_number_sep2 = "1.200.468";
+    const char* correct_number_phone = "1-200-867-5309";
+    const char* correct_number_phone_area = "1-(200)-867-5309";
+    const char* correct_number_eq = "5^3=125";
+    const char* correct_number_eq2 = "5+(3-2)=6";
+    const char* correct_number_eq3 = "5*(4/2)=10";
+    const char* correct_number_eq4 = "3!=6";
+    const char* no_leet = "3l3ph4nt";
+    ck_assert(check_word(correct_number, hashtable));
+    ck_assert(check_word(correct_number_dec, hashtable));
+    ck_assert(check_word(correct_number_sep1, hashtable));
+    ck_assert(check_word(correct_number_sep2, hashtable));
+    ck_assert(check_word(correct_number_phone, hashtable));
+    ck_assert(check_word(correct_number_phone_area, hashtable));
+    ck_assert(check_word(correct_number_eq, hashtable));
+    ck_assert(check_word(correct_number_eq2, hashtable));
+    ck_assert(check_word(correct_number_eq3, hashtable));
+    ck_assert(check_word(correct_number_eq4, hashtable));
+    ck_assert(!check_word(no_leet, hashtable));
+}
+END_TEST
+
 Suite *
 check_word_suite(void)
 {
@@ -90,6 +119,7 @@ check_word_suite(void)
     tcase_add_test(check_word_case, test_check_words_normal);
     tcase_add_test(check_word_case, test_dictionary_normal);
     tcase_add_test(check_word_case, test_check_words_irregular_spacing);
+    tcase_add_test(check_word_case, test_check_word_numbers);
     suite_add_tcase(suite, check_word_case);
 
     return suite;
