@@ -2,11 +2,11 @@
 #include "dictionary.h"
 #include <stdlib.h>
 
-#define DICTIONARY "wordlist.txt"
-#define TESTDICT "test_wordlist.txt"
-#define TESTDICTLONG "test_wordlist2.txt"
-#define TESTINPUT "test1.txt"
-#define TESTINPUT2 "test2.txt"
+#define DICTIONARY "wordlists/wordlist.txt"
+#define TESTDICT "wordlists/test_wordlist.txt"
+#define TESTDICTLONG "wordlists/test_wordlist2.txt"
+#define TESTINPUT "inputs/test1.txt"
+#define TESTINPUT2 "inputs/test2.txt"
 
 START_TEST(test_dictionary_normal)
 {

@@ -43,10 +43,10 @@ The first argument should be a wordlist text file to act as a dictionary of corr
 Sample usage using the files included in this repo:
 
 ```shell
-./spell_check wordlist.txt test1.txt
+./spell_check wordlists/wordlist.txt inputs/test1.txt
 ```
 
 Output:
 ```text
-There were 3 misspelled words in your input file 'test1.txt' found using dictionary 'wordlist.txt'
+There were 3 misspelled words in your input file 'inputs/test1.txt' found using dictionary 'wordlists/wordlist.txt'
 ```
