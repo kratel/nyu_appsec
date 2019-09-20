@@ -190,7 +190,7 @@ bool load_dictionary(const char* dictionary_file, hashmap_t hashtable[]){
 	char* word;
 	word = w;
 	while ((c = fgetc(fp)) != EOF){
-		if (hashbucketctr >= HASH_SIZE){
+		if (hashbucketctr > HASH_SIZE){
 			// Reached max number of buckets break
 			break;
 		}
