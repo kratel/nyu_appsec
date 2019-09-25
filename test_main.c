@@ -5,6 +5,7 @@
 #define DICTIONARY "wordlists/wordlist.txt"
 #define TESTDICT "wordlists/test_wordlist.txt"
 #define TESTDICTLONG "wordlists/test_wordlist2.txt"
+#define TESTDICTOF "wordlists/test_wordlist3.txt"
 #define TESTINPUT "inputs/test1.txt"
 #define TESTINPUT2 "inputs/test2.txt"
 #define TESTINPUT3 "inputs/test3.txt"
@@ -18,6 +19,22 @@ START_TEST(test_dictionary_normal)
     expected[1] = "second";
     expected[2] = "third";
     for (int i = 0; i < 3; ++i)
+    {
+        ck_assert(strcmp(expected[i],hashtable[hash_function(expected[i])]->word) == 0);
+    }
+}
+END_TEST
+
+START_TEST(test_dictionary_overflow)
+{
+    hashmap_t hashtable[HASH_SIZE];
+    ck_assert(load_dictionary(TESTDICTOF, hashtable));
+    char* expected[4];
+    expected[0] = "bad";
+    expected[1] = "apple";
+    expected[2] = "peach";
+    expected[3] = "duck";
+    for (int i = 0; i < 4; ++i)
     {
         ck_assert(strcmp(expected[i],hashtable[hash_function(expected[i])]->word) == 0);
     }
@@ -133,6 +150,7 @@ check_word_suite(void)
     tcase_add_test(check_word_case, test_check_word_normal);
     tcase_add_test(check_word_case, test_check_words_normal);
     tcase_add_test(check_word_case, test_dictionary_normal);
+    tcase_add_test(check_word_case, test_dictionary_overflow);
     tcase_add_test(check_word_case, test_check_words_irregular_spacing);
     tcase_add_test(check_word_case, test_check_word_numbers);
     suite_add_tcase(suite, check_word_case);
