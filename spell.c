@@ -96,7 +96,7 @@ int check_words(FILE* fp, hashmap_t hashtable[], char * misspelled[]){
 }
 
 bool is_valid_num_string(const char* num_string){
-	int l = strlen(num_string);
+	int l = strlen(num_string) - 1;
 	char c;
 	for (int i = 0; i <= l; ++i){
 		if (isdigit(num_string[i])){
