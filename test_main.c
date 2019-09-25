@@ -9,6 +9,7 @@
 #define TESTINPUT "inputs/test1.txt"
 #define TESTINPUT2 "inputs/test2.txt"
 #define TESTINPUT3 "inputs/test3.txt"
+#define TESTINPUT4 "inputs/test4.txt"
 
 START_TEST(test_dictionary_normal)
 {
@@ -111,6 +112,30 @@ START_TEST(test_check_words_irregular_spacing)
 }
 END_TEST
 
+START_TEST(test_check_words_overflow)
+{
+    hashmap_t hashtable[HASH_SIZE];
+    load_dictionary(DICTIONARY, hashtable);
+    char* expected[4];
+    expected[0] = "pneumonoultramasdfdsicroscosadawedapicsilisaw";
+    expected[1] = "sogn";
+    expected[2] = "skyn";
+    expected[3] = "betta";
+    char *misspelled[MAX_MISSPELLED];
+    FILE *fp = fopen(TESTINPUT4, "r");
+    int num_misspelled = check_words(fp, hashtable, misspelled);
+    ck_assert(num_misspelled == 4);
+    bool test = strlen(misspelled[0]) == strlen(expected[0]);
+    int len1 = strlen(misspelled[0]);
+    int len2 = strlen(expected[0]);
+    ck_assert_msg(test, "%d!=%d", len1, len2);
+    ck_assert_msg(strcmp(misspelled[0], expected[0]) == 0);
+    ck_assert_msg(strcmp(misspelled[1], expected[1]) == 0);
+    ck_assert_msg(strcmp(misspelled[2], expected[2]) == 0);
+    ck_assert_msg(strcmp(misspelled[3], expected[3]) == 0);
+}
+END_TEST
+
 START_TEST(test_check_word_numbers)
 {
     hashmap_t hashtable[HASH_SIZE];
@@ -152,6 +177,7 @@ check_word_suite(void)
     tcase_add_test(check_word_case, test_dictionary_normal);
     tcase_add_test(check_word_case, test_dictionary_overflow);
     tcase_add_test(check_word_case, test_check_words_irregular_spacing);
+    tcase_add_test(check_word_case, test_check_words_overflow);
     tcase_add_test(check_word_case, test_check_word_numbers);
     suite_add_tcase(suite, check_word_case);
 
