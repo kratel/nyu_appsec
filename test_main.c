@@ -178,7 +178,13 @@ START_TEST(test_check_word_numbers)
     const char* correct_number_eq2 = "5+(3-2)=6";
     const char* correct_number_eq3 = "5*(4/2)=10";
     const char* correct_number_eq4 = "3!=6";
+    const char* correct_number_sci_not = "3E+8";
+    const char* correct_number_sci_not2 = "3e+8";
+    const char* correct_number_imaginary = "3i";
+    const char* no_other_constants_allowed = "3a";
+    printf("%lu\n", strlen(no_other_constants_allowed));
     const char* no_leet = "3l3ph4nt";
+    const char* wrong_punct = "5`5";
     ck_assert(check_word(correct_number, hashtable));
     ck_assert(check_word(correct_number_dec, hashtable));
     ck_assert(check_word(correct_number_sep1, hashtable));
@@ -189,7 +195,12 @@ START_TEST(test_check_word_numbers)
     ck_assert(check_word(correct_number_eq2, hashtable));
     ck_assert(check_word(correct_number_eq3, hashtable));
     ck_assert(check_word(correct_number_eq4, hashtable));
+    ck_assert(check_word(correct_number_sci_not, hashtable));
+    ck_assert(check_word(correct_number_sci_not2, hashtable));
+    ck_assert(check_word(correct_number_imaginary, hashtable));
+    ck_assert(!check_word(no_other_constants_allowed, hashtable));
     ck_assert(!check_word(no_leet, hashtable));
+    ck_assert(!check_word(wrong_punct, hashtable));
 }
 END_TEST
 
