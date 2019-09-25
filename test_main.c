@@ -11,6 +11,7 @@
 #define TESTINPUT3 "inputs/test3.txt"
 #define TESTINPUT4 "inputs/test4.txt"
 #define TESTINPUT5 "inputs/test5.txt"
+#define TESTINPUT6 "inputs/test6.txt"
 
 START_TEST(test_dictionary_normal)
 {
@@ -154,6 +155,11 @@ START_TEST(test_check_words_overflow)
     ck_assert_msg(strcmp(misspelled[1], expected[1]) == 0);
     ck_assert_msg(strcmp(misspelled[2], expected[2]) == 0);
     ck_assert_msg(strcmp(misspelled[3], expected[3]) == 0);
+    fclose(fp);
+    // Test overflow of misspelled words
+    fp = fopen(TESTINPUT6, "r");
+    num_misspelled = check_words(fp, hashtable, misspelled);
+    ck_assert(num_misspelled == 1000);
     fclose(fp);
 }
 END_TEST
