@@ -13,6 +13,7 @@
 #define TESTINPUT4 "inputs/test4.txt"
 #define TESTINPUT5 "inputs/test5.txt"
 #define TESTINPUT6 "inputs/test6.txt"
+#define TESTINPUT7 "inputs/test7.txt"
 
 START_TEST(test_dictionary_normal)
 {
@@ -24,6 +25,23 @@ START_TEST(test_dictionary_normal)
     expected[2] = "third";
     for (int i = 0; i < 3; ++i)
     {
+        ck_assert_msg(hashtable[hash_function(expected[i])], "Word in expected array index [%d] not found in hashtable", i);
+        ck_assert(strcmp(expected[i],hashtable[hash_function(expected[i])]->word) == 0);
+    }
+}
+END_TEST
+
+START_TEST(test_dictionary_long)
+{
+    hashmap_t hashtable[HASH_SIZE];
+    ck_assert(load_dictionary(TESTDICTLONG, hashtable));
+    char* expected[2];
+    expected[0] = "better";
+    // max length of word allowed in dict is 45
+    expected[1] = "pneumonoultramicroscopicsilicovolcanoconiosis";
+    for (int i = 0; i < 2; i++)
+    {
+        ck_assert_msg(hashtable[hash_function(expected[i])], "Word in expected array index [%d] not found in hashtable.", i);
         ck_assert(strcmp(expected[i],hashtable[hash_function(expected[i])]->word) == 0);
     }
 }
@@ -40,12 +58,14 @@ START_TEST(test_dictionary_overflow)
     expected[3] = "duck";
     for (int i = 0; i < 4; ++i)
     {
+        ck_assert_msg(hashtable[hash_function(expected[i])], "Word in expected array index [%d] not found in hashtable.", i);
         ck_assert(strcmp(expected[i],hashtable[hash_function(expected[i])]->word) == 0);
     }
     // Test if long word is at end of dictionary.
     ck_assert(load_dictionary(TESTDICTOF2, hashtable));
     for (int i = 0; i < 3; ++i)
     {
+        ck_assert_msg(hashtable[hash_function(expected[i])], "Word in expected array index [%d] not found in hashtable.", i);
         ck_assert(strcmp(expected[i],hashtable[hash_function(expected[i])]->word) == 0);
     }
     // Test to make sure hashtable doesn't still have duck
@@ -175,8 +195,38 @@ START_TEST(test_check_words_overflow)
     // Test overflow of misspelled words
     fp = fopen(TESTINPUT6, "r");
     num_misspelled = check_words(fp, hashtable, misspelled);
-    ck_assert(num_misspelled == 1000);
     fclose(fp);
+    ck_assert(num_misspelled == 1000);
+}
+END_TEST
+
+START_TEST(test_check_words_misspelled_verify)
+{
+    // Testing that words in misspelled array are actually misspelled
+    // get misspelled array and create a temp file with it
+    // pass that as input to check_words again, num_misspelled vars should match from both runs.
+    hashmap_t hashtable[HASH_SIZE];
+    load_dictionary(TESTDICTLONG, hashtable);
+    char *misspelled[MAX_MISSPELLED];
+    FILE *fp = fopen(TESTINPUT7, "r");
+    int old_num_misspelled = check_words(fp, hashtable, misspelled);
+    fclose(fp);
+    // make temp file
+    fp = fopen("test_temp.txt","w");
+    for(int i = 0; i < old_num_misspelled;i++){
+       fprintf (fp, "%s\n",misspelled[i]);
+    }
+    fclose (fp);
+    // now feed that back into misspelled.
+    fp = fopen("test_temp.txt", "r");
+    int num_misspelled = check_words(fp, hashtable, misspelled);
+    fclose(fp);
+    // remove temp file
+    int res = remove("test_temp.txt");
+    if (res != 0){
+        printf("Error Deleting File\n");
+    }
+    ck_assert(old_num_misspelled == num_misspelled);
 }
 END_TEST
 
@@ -229,10 +279,12 @@ check_word_suite(void)
     tcase_add_test(check_word_case, test_check_word_normal);
     tcase_add_test(check_word_case, test_check_words_normal);
     tcase_add_test(check_word_case, test_dictionary_normal);
+    tcase_add_test(check_word_case, test_dictionary_long);
     tcase_add_test(check_word_case, test_dictionary_overflow);
     tcase_add_test(check_word_case, test_dictionary_no_file);
     tcase_add_test(check_word_case, test_check_words_irregular_spacing);
     tcase_add_test(check_word_case, test_check_words_overflow);
+    tcase_add_test(check_word_case, test_check_words_misspelled_verify);
     tcase_add_test(check_word_case, test_check_word_numbers);
     suite_add_tcase(suite, check_word_case);
 
