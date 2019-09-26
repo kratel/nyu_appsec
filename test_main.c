@@ -6,6 +6,7 @@
 #define TESTDICT "wordlists/test_wordlist.txt"
 #define TESTDICTLONG "wordlists/test_wordlist2.txt"
 #define TESTDICTOF "wordlists/test_wordlist3.txt"
+#define TESTDICTOF2 "wordlists/test_wordlist4.txt"
 #define TESTINPUT "inputs/test1.txt"
 #define TESTINPUT2 "inputs/test2.txt"
 #define TESTINPUT3 "inputs/test3.txt"
@@ -41,6 +42,21 @@ START_TEST(test_dictionary_overflow)
     {
         ck_assert(strcmp(expected[i],hashtable[hash_function(expected[i])]->word) == 0);
     }
+    // Test if long word is at end of dictionary.
+    ck_assert(load_dictionary(TESTDICTOF2, hashtable));
+    for (int i = 0; i < 3; ++i)
+    {
+        ck_assert(strcmp(expected[i],hashtable[hash_function(expected[i])]->word) == 0);
+    }
+    // Test to make sure hashtable doesn't still have duck
+    ck_assert(!hashtable[hash_function(expected[3])]);
+}
+END_TEST
+
+START_TEST(test_dictionary_no_file)
+{
+    hashmap_t hashtable[HASH_SIZE];
+    ck_assert(!load_dictionary("some_really_not_real_file.txt", hashtable));
 }
 END_TEST
 
@@ -214,6 +230,7 @@ check_word_suite(void)
     tcase_add_test(check_word_case, test_check_words_normal);
     tcase_add_test(check_word_case, test_dictionary_normal);
     tcase_add_test(check_word_case, test_dictionary_overflow);
+    tcase_add_test(check_word_case, test_dictionary_no_file);
     tcase_add_test(check_word_case, test_check_words_irregular_spacing);
     tcase_add_test(check_word_case, test_check_words_overflow);
     tcase_add_test(check_word_case, test_check_word_numbers);
