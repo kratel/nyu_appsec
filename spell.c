@@ -186,17 +186,12 @@ bool load_dictionary(const char* dictionary_file, hashmap_t hashtable[]){
 		return false;
 	}
 	int counter = 0;
-	int hashbucketctr = 0;
 	int c;
 	int bucket;
 	char w[LENGTH + 1];
 	char* word;
 	word = w;
 	while ((c = fgetc(fp)) != EOF){
-		if (hashbucketctr > HASH_SIZE){
-			// Reached max number of buckets break
-			break;
-		}
 		// Check if word is too long
 		if (counter >= LENGTH){
 			/* might not be neccessary if dictionaries are expected to have words smaller than 45 chars*/
@@ -220,13 +215,12 @@ bool load_dictionary(const char* dictionary_file, hashmap_t hashtable[]){
 			word[counter] = '\0';
 			strcpy(new_node->word,word);
 			bucket = hash_function(word);
-			if (hashtable[bucket] == NULL){
-				hashbucketctr++;
+			if (bucket < HASH_SIZE) {
+				if (hashtable[bucket] != NULL){
+					new_node->next = hashtable[bucket];
+				}
+				hashtable[bucket] = new_node;
 			}
-			if (hashtable[bucket] != NULL){
-				new_node->next = hashtable[bucket];
-			}
-			hashtable[bucket] = new_node;
 			word[0] = '\0';
 			counter = 0;
 		} else {
