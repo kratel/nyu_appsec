@@ -40,6 +40,7 @@ main(int argc, char *argv[])
 
     clear_malloced_llist_array(hashtable);
     clear_char_array(num_misspelled, misspelled);
+    fclose(fp);
     
     return 0;
 }
