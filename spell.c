@@ -35,21 +35,30 @@ char *wordtolower(const char *word){
 }
 
 int check_words(FILE* fp, hashmap_t hashtable[], char * misspelled[]){
+	// clear misspelled array since we always start count from 0
+	for (int i=0; i < MAX_MISSPELLED; i++){
+        misspelled[i] = NULL;
+    }
 	int num_misspelled = 0;
 	int counter = 0;
 	int c;
 	char w[LENGTH + 1];
 	char* word;
 	word = w;
+	word[LENGTH] = '\0';
+	char tr[7];
+	char * trunc_suffix;
+	trunc_suffix = tr;
+	trunc_suffix = "_TRUNC";
 	while ((c = fgetc(fp)) != EOF){
 		if (num_misspelled >= MAX_MISSPELLED){
 			// Reached max limit
 			break;
 		}
 		// Check if word is too long
-		if (counter >= LENGTH){
+		if (counter > LENGTH){
 			// Keep moving pointer to end of the word in file. This word is truncated and counted as misspelled.
-			word[LENGTH] = '\0';
+			strcpy(&word[LENGTH - strlen(trunc_suffix)],trunc_suffix);
 			misspelled[num_misspelled] = (char *) malloc((LENGTH + 1) * sizeof(char));
 			strcpy(misspelled[num_misspelled],word);
 			num_misspelled++;
@@ -193,7 +202,7 @@ bool load_dictionary(const char* dictionary_file, hashmap_t hashtable[]){
 	word = w;
 	while ((c = fgetc(fp)) != EOF){
 		// Check if word is too long
-		if (counter >= LENGTH){
+		if (counter > LENGTH){
 			/* might not be neccessary if dictionaries are expected to have words smaller than 45 chars*/
 			// Keep moving pointer to end of the word in file. This word won't be added to hashtable.
 			while (c != EOF && c != '\r' && c != '\n' && c != '\t' && c != ' '){
