@@ -155,7 +155,7 @@ START_TEST(test_check_words_overflow)
     hashmap_t hashtable[HASH_SIZE];
     load_dictionary(DICTIONARY, hashtable);
     char* expected[4];
-    expected[0] = "pneumonoultramasdfdsicroscosadawedapicsilisaw";
+    expected[0] = "pneumonoultramasdfdsicroscosadawedapics_TRUNC";
     expected[1] = "sogn";
     expected[2] = "skyn";
     expected[3] = "betta";
@@ -180,7 +180,7 @@ START_TEST(test_check_words_overflow)
     expected[0] = "sogn";
     expected[1] = "skyn";
     expected[2] = "betta";
-    expected[3] = "pneumonoultramasdfdsicroscosadawedapicsilisaw";
+    expected[3] = "pneumonoultramasdfdsicroscosadawedapics_TRUNC";
     num_misspelled = check_words(fp, hashtable, misspelled);
     ck_assert(num_misspelled == 4);
     test = strlen(misspelled[0]) == strlen(expected[0]);
