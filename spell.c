@@ -38,6 +38,7 @@ int check_words(FILE* fp, hashmap_t hashtable[], char * misspelled[]){
 	// clear misspelled array since we always start count from 0
 	for (int i=0; i < MAX_MISSPELLED; i++){
         misspelled[i] = NULL;
+        free(misspelled[i]);
     }
 	int num_misspelled = 0;
 	int counter = 0;
@@ -50,6 +51,7 @@ int check_words(FILE* fp, hashmap_t hashtable[], char * misspelled[]){
 	char * trunc_suffix;
 	trunc_suffix = tr;
 	trunc_suffix = "_TRUNC";
+	int malloc_counter = 0;
 	while ((c = fgetc(fp)) != EOF){
 		if (num_misspelled >= MAX_MISSPELLED){
 			// Reached max limit
@@ -60,6 +62,7 @@ int check_words(FILE* fp, hashmap_t hashtable[], char * misspelled[]){
 			// Keep moving pointer to end of the word in file. This word is truncated and counted as misspelled.
 			strcpy(&word[LENGTH - strlen(trunc_suffix)],trunc_suffix);
 			misspelled[num_misspelled] = (char *) malloc((LENGTH + 1) * sizeof(char));
+			malloc_counter++;
 			strcpy(misspelled[num_misspelled],word);
 			num_misspelled++;
 			while (c != EOF && c != '\r' && c != '\n' && c != '\t' && c != ' '){
@@ -84,6 +87,7 @@ int check_words(FILE* fp, hashmap_t hashtable[], char * misspelled[]){
 				// add to misspelled array
 				// need to malloc memory
 				misspelled[num_misspelled] = (char *) malloc((LENGTH + 1) * sizeof(char));
+				malloc_counter++;
 				strcpy(misspelled[num_misspelled],b);
 				num_misspelled++;
 			}
@@ -101,6 +105,7 @@ int check_words(FILE* fp, hashmap_t hashtable[], char * misspelled[]){
 		}
 	}
 	// printf("%d\n", num_misspelled);
+	printf("There were %d malloc calls in this run of check_words\n", malloc_counter);
 	return num_misspelled;
 }
 
@@ -200,6 +205,7 @@ bool load_dictionary(const char* dictionary_file, hashmap_t hashtable[]){
 	char w[LENGTH + 1];
 	char* word;
 	word = w;
+	int malloc_counter = 0;
 	while ((c = fgetc(fp)) != EOF){
 		// Check if word is too long
 		if (counter > LENGTH){
@@ -220,6 +226,7 @@ bool load_dictionary(const char* dictionary_file, hashmap_t hashtable[]){
 		if (counter != 0 && (c == '\r' || c == '\n' || c == '\t' || c == ' ')){
 			/* add word in */
 			hashmap_t new_node = (hashmap_t) malloc(sizeof(node));
+			malloc_counter++;
 			new_node->next = NULL;
 			word[counter] = '\0';
 			strcpy(new_node->word,word);
@@ -244,5 +251,6 @@ bool load_dictionary(const char* dictionary_file, hashmap_t hashtable[]){
 		}
 	}
 	fclose(fp);
+	printf("There were %d malloc calls during this run of load_dictionary\n", malloc_counter);
 	return true;
 }
