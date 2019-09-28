@@ -1,0 +1,88 @@
+==26856== Memcheck, a memory error detector
+==26856== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==26856== Using Valgrind-3.13.0 and LibVEX; rerun with -h for copyright info
+==26856== Command: /home/kratel/nyu_appsec/spell_check /home/kratel/nyu_appsec/wordlists/wordlist.txt /home/kratel/nyu_appsec/inputs/test1.txt
+==26856== 
+==26856== Conditional jump or move depends on uninitialised value(s)
+==26856==    at 0x4C32CF9: strlen (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==26856==    by 0x108A0F: hash_function (in /home/kratel/nyu_appsec/spell_check)
+==26856==    by 0x1091B9: check_word (in /home/kratel/nyu_appsec/spell_check)
+==26856==    by 0x108DD5: check_words (in /home/kratel/nyu_appsec/spell_check)
+==26856==    by 0x109620: main (in /home/kratel/nyu_appsec/spell_check)
+==26856== 
+==26856== Conditional jump or move depends on uninitialised value(s)
+==26856==    at 0x4C32D08: strlen (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==26856==    by 0x108A0F: hash_function (in /home/kratel/nyu_appsec/spell_check)
+==26856==    by 0x1091B9: check_word (in /home/kratel/nyu_appsec/spell_check)
+==26856==    by 0x108DD5: check_words (in /home/kratel/nyu_appsec/spell_check)
+==26856==    by 0x109620: main (in /home/kratel/nyu_appsec/spell_check)
+==26856== 
+==26856== Use of uninitialised value of size 8
+==26856==    at 0x1091D1: check_word (in /home/kratel/nyu_appsec/spell_check)
+==26856==    by 0x108DD5: check_words (in /home/kratel/nyu_appsec/spell_check)
+==26856==    by 0x109620: main (in /home/kratel/nyu_appsec/spell_check)
+==26856== 
+==26856== Conditional jump or move depends on uninitialised value(s)
+==26856==    at 0x4C33DAC: strcmp (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==26856==    by 0x1091EC: check_word (in /home/kratel/nyu_appsec/spell_check)
+==26856==    by 0x108DD5: check_words (in /home/kratel/nyu_appsec/spell_check)
+==26856==    by 0x109620: main (in /home/kratel/nyu_appsec/spell_check)
+==26856== 
+==26856== Conditional jump or move depends on uninitialised value(s)
+==26856==    at 0x1091EF: check_word (in /home/kratel/nyu_appsec/spell_check)
+==26856==    by 0x108DD5: check_words (in /home/kratel/nyu_appsec/spell_check)
+==26856==    by 0x109620: main (in /home/kratel/nyu_appsec/spell_check)
+==26856== 
+==26856== Conditional jump or move depends on uninitialised value(s)
+==26856==    at 0x4C33DB0: strcmp (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==26856==    by 0x1091EC: check_word (in /home/kratel/nyu_appsec/spell_check)
+==26856==    by 0x108DD5: check_words (in /home/kratel/nyu_appsec/spell_check)
+==26856==    by 0x109620: main (in /home/kratel/nyu_appsec/spell_check)
+==26856== 
+==26856== Conditional jump or move depends on uninitialised value(s)
+==26856==    at 0x4C33DCC: strcmp (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==26856==    by 0x1091EC: check_word (in /home/kratel/nyu_appsec/spell_check)
+==26856==    by 0x108DD5: check_words (in /home/kratel/nyu_appsec/spell_check)
+==26856==    by 0x109620: main (in /home/kratel/nyu_appsec/spell_check)
+==26856== 
+==26856== 
+==26856== FILE DESCRIPTORS: 3 open at exit.
+==26856== Open file descriptor 2: /home/kratel/valgrind_run01.log
+==26856==    <inherited from parent>
+==26856== 
+==26856== Open file descriptor 1: /dev/pts/0
+==26856==    <inherited from parent>
+==26856== 
+==26856== Open file descriptor 0: /dev/pts/0
+==26856==    <inherited from parent>
+==26856== 
+==26856== 
+==26856== HEAP SUMMARY:
+==26856==     in use at exit: 6,895,530 bytes in 123,135 blocks
+==26856==   total heap usage: 123,140 allocs, 5 frees, 6,905,850 bytes allocated
+==26856== 
+==26856== 138 bytes in 3 blocks are definitely lost in loss record 1 of 3
+==26856==    at 0x4C2FB0F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==26856==    by 0x108DFE: check_words (in /home/kratel/nyu_appsec/spell_check)
+==26856==    by 0x109620: main (in /home/kratel/nyu_appsec/spell_check)
+==26856== 
+==26856== 6,789,832 bytes in 121,247 blocks are indirectly lost in loss record 2 of 3
+==26856==    at 0x4C2FB0F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==26856==    by 0x109347: load_dictionary (in /home/kratel/nyu_appsec/spell_check)
+==26856==    by 0x1095DC: main (in /home/kratel/nyu_appsec/spell_check)
+==26856== 
+==26856== 6,895,392 (105,560 direct, 6,789,832 indirect) bytes in 1,885 blocks are definitely lost in loss record 3 of 3
+==26856==    at 0x4C2FB0F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==26856==    by 0x109347: load_dictionary (in /home/kratel/nyu_appsec/spell_check)
+==26856==    by 0x1095DC: main (in /home/kratel/nyu_appsec/spell_check)
+==26856== 
+==26856== LEAK SUMMARY:
+==26856==    definitely lost: 105,698 bytes in 1,888 blocks
+==26856==    indirectly lost: 6,789,832 bytes in 121,247 blocks
+==26856==      possibly lost: 0 bytes in 0 blocks
+==26856==    still reachable: 0 bytes in 0 blocks
+==26856==         suppressed: 0 bytes in 0 blocks
+==26856== 
+==26856== For counts of detected and suppressed errors, rerun with: -v
+==26856== Use --track-origins=yes to see where uninitialised values come from
+==26856== ERROR SUMMARY: 739 errors from 9 contexts (suppressed: 0 from 0)

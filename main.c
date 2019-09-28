@@ -1,8 +1,8 @@
 #include "dictionary.h"
 #include <stdlib.h>
 
-int clear_malloced_llist_array(hashmap_t hashtable[]){
-    int free_counter = 0;
+void clear_malloced_llist_array(hashmap_t hashtable[]){
+    // int free_counter = 0;
     hashmap_t cursor = NULL;
     hashmap_t next = NULL;
     for (int i = 0; i < HASH_SIZE; i++){
@@ -11,21 +11,19 @@ int clear_malloced_llist_array(hashmap_t hashtable[]){
             // printf("in while\n");
             next = cursor->next;
             free(cursor);
-            free_counter++;
+            // free_counter++;
             cursor = next;
         }
         free(cursor);
     }
-    return free_counter;
 }
 
-int clear_char_array(int num_misspelled, char * misspelled[]){
-    int free_counter = 0;
+void clear_char_array(int num_misspelled, char * misspelled[]){
+    // int free_counter = 0;
     for (int i = 0; i < num_misspelled; i++){
         free(misspelled[i]);
-        free_counter++;
+        // free_counter++;
     }
-    return free_counter;
 }
 
 int
@@ -43,12 +41,9 @@ main(int argc, char *argv[])
     int num_misspelled = check_words(fp, hashtable, misspelled);
     printf("There were %d misspelled words in your input file '%s' found using dictionary '%s'\n", num_misspelled, argv[2], argv[1]);
 
-    int hashtable_frees;
-    int char_array_frees;
 
-    hashtable_frees = clear_malloced_llist_array(hashtable);
-    char_array_frees = clear_char_array(num_misspelled, misspelled);
-    printf("There were %d hashtable_frees and %d char_array_frees\n", hashtable_frees, char_array_frees );
+    clear_malloced_llist_array(hashtable);
+    clear_char_array(num_misspelled, misspelled);
     fclose(fp);
     
     return 0;
