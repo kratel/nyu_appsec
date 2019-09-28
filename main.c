@@ -10,7 +10,6 @@ int clear_malloced_llist_array(hashmap_t hashtable[]){
         while(cursor){
             // printf("in while\n");
             next = cursor->next;
-            cursor = NULL;
             free(cursor);
             free_counter++;
             cursor = next;
@@ -23,7 +22,6 @@ int clear_malloced_llist_array(hashmap_t hashtable[]){
 int clear_char_array(int num_misspelled, char * misspelled[]){
     int free_counter = 0;
     for (int i = 0; i < num_misspelled; i++){
-        misspelled[i] = NULL;
         free(misspelled[i]);
         free_counter++;
     }
