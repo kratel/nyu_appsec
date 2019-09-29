@@ -48,6 +48,9 @@ endif
 prog: dictionary.o spell.o main.o
 	gcc -Wall -o spell_check dictionary.o spell.o main.o
 
+alt_prog: spell.c dictionary.c main.c
+	gcc -o spell_check -O0 -g dictionary.c spell.c main.c
+
 .PHONY: clean cleancov cleanall spell.o
 
 clean:

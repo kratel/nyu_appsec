@@ -1,0 +1,88 @@
+==27930== Memcheck, a memory error detector
+==27930== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==27930== Using Valgrind-3.13.0 and LibVEX; rerun with -h for copyright info
+==27930== Command: ./spell_check ./wordlists/wordlist.txt ./inputs/test1.txt
+==27930== 
+==27930== Conditional jump or move depends on uninitialised value(s)
+==27930==    at 0x4C32CF9: strlen (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==27930==    by 0x108A08: hash_function (dictionary.c:25)
+==27930==    by 0x1091B2: check_word (spell.c:176)
+==27930==    by 0x108DCE: check_words (spell.c:86)
+==27930==    by 0x109633: main (main.c:45)
+==27930== 
+==27930== Conditional jump or move depends on uninitialised value(s)
+==27930==    at 0x4C32D08: strlen (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==27930==    by 0x108A08: hash_function (dictionary.c:25)
+==27930==    by 0x1091B2: check_word (spell.c:176)
+==27930==    by 0x108DCE: check_words (spell.c:86)
+==27930==    by 0x109633: main (main.c:45)
+==27930== 
+==27930== Use of uninitialised value of size 8
+==27930==    at 0x1091CA: check_word (spell.c:177)
+==27930==    by 0x108DCE: check_words (spell.c:86)
+==27930==    by 0x109633: main (main.c:45)
+==27930== 
+==27930== Conditional jump or move depends on uninitialised value(s)
+==27930==    at 0x4C33DAC: strcmp (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==27930==    by 0x1091E5: check_word (spell.c:181)
+==27930==    by 0x108DCE: check_words (spell.c:86)
+==27930==    by 0x109633: main (main.c:45)
+==27930== 
+==27930== Conditional jump or move depends on uninitialised value(s)
+==27930==    at 0x1091E8: check_word (spell.c:181)
+==27930==    by 0x108DCE: check_words (spell.c:86)
+==27930==    by 0x109633: main (main.c:45)
+==27930== 
+==27930== Conditional jump or move depends on uninitialised value(s)
+==27930==    at 0x4C33DB0: strcmp (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==27930==    by 0x1091E5: check_word (spell.c:181)
+==27930==    by 0x108DCE: check_words (spell.c:86)
+==27930==    by 0x109633: main (main.c:45)
+==27930== 
+==27930== Conditional jump or move depends on uninitialised value(s)
+==27930==    at 0x4C33DCC: strcmp (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==27930==    by 0x1091E5: check_word (spell.c:181)
+==27930==    by 0x108DCE: check_words (spell.c:86)
+==27930==    by 0x109633: main (main.c:45)
+==27930== 
+==27930== 
+==27930== FILE DESCRIPTORS: 3 open at exit.
+==27930== Open file descriptor 2: /home/kratel/nyu_appsec/logs/valgrind_run02.log
+==27930==    <inherited from parent>
+==27930== 
+==27930== Open file descriptor 1: /dev/pts/0
+==27930==    <inherited from parent>
+==27930== 
+==27930== Open file descriptor 0: /dev/pts/0
+==27930==    <inherited from parent>
+==27930== 
+==27930== 
+==27930== HEAP SUMMARY:
+==27930==     in use at exit: 6,895,530 bytes in 123,135 blocks
+==27930==   total heap usage: 123,140 allocs, 5 frees, 6,905,850 bytes allocated
+==27930== 
+==27930== 138 bytes in 3 blocks are definitely lost in loss record 1 of 3
+==27930==    at 0x4C2FB0F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==27930==    by 0x108DF7: check_words (spell.c:89)
+==27930==    by 0x109633: main (main.c:45)
+==27930== 
+==27930== 6,789,832 bytes in 121,247 blocks are indirectly lost in loss record 2 of 3
+==27930==    at 0x4C2FB0F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==27930==    by 0x109340: load_dictionary (spell.c:228)
+==27930==    by 0x1095EF: main (main.c:42)
+==27930== 
+==27930== 6,895,392 (105,560 direct, 6,789,832 indirect) bytes in 1,885 blocks are definitely lost in loss record 3 of 3
+==27930==    at 0x4C2FB0F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==27930==    by 0x109340: load_dictionary (spell.c:228)
+==27930==    by 0x1095EF: main (main.c:42)
+==27930== 
+==27930== LEAK SUMMARY:
+==27930==    definitely lost: 105,698 bytes in 1,888 blocks
+==27930==    indirectly lost: 6,789,832 bytes in 121,247 blocks
+==27930==      possibly lost: 0 bytes in 0 blocks
+==27930==    still reachable: 0 bytes in 0 blocks
+==27930==         suppressed: 0 bytes in 0 blocks
+==27930== 
+==27930== For counts of detected and suppressed errors, rerun with: -v
+==27930== Use --track-origins=yes to see where uninitialised values come from
+==27930== ERROR SUMMARY: 739 errors from 9 contexts (suppressed: 0 from 0)

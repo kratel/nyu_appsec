@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 void clear_malloced_llist_array(hashmap_t hashtable[]){
+    // int free_counter = 0;
     hashmap_t cursor = NULL;
     hashmap_t next = NULL;
     for (int i = 0; i < HASH_SIZE; i++){
@@ -9,17 +10,19 @@ void clear_malloced_llist_array(hashmap_t hashtable[]){
         while(cursor){
             // printf("in while\n");
             next = cursor->next;
-            cursor = NULL;
             free(cursor);
+            // free_counter++;
             cursor = next;
         }
+        free(cursor);
     }
 }
 
 void clear_char_array(int num_misspelled, char * misspelled[]){
+    // int free_counter = 0;
     for (int i = 0; i < num_misspelled; i++){
-        misspelled[i] = NULL;
         free(misspelled[i]);
+        // free_counter++;
     }
 }
 
@@ -37,6 +40,7 @@ main(int argc, char *argv[])
     FILE *fp = fopen(argv[2], "r");
     int num_misspelled = check_words(fp, hashtable, misspelled);
     printf("There were %d misspelled words in your input file '%s' found using dictionary '%s'\n", num_misspelled, argv[2], argv[1]);
+
 
     clear_malloced_llist_array(hashtable);
     clear_char_array(num_misspelled, misspelled);
