@@ -39,7 +39,11 @@ main(int argc, char *argv[])
     char *misspelled[MAX_MISSPELLED];
     FILE *fp = fopen(argv[2], "r");
     int num_misspelled = check_words(fp, hashtable, misspelled);
-    printf("There were %d misspelled words in your input file '%s' found using dictionary '%s'\n", num_misspelled, argv[2], argv[1]);
+    printf("There were %d misspelled words in your input text.\n", num_misspelled);
+    printf("Misspelled Words:\n");
+    for (int i = 0; i < num_misspelled; i++){
+        printf("%s\n", misspelled[i]);
+    }
 
 
     clear_malloced_llist_array(hashtable);
