@@ -31,13 +31,13 @@ main(int argc, char *argv[])
 {
     if (argc < 3)
     {
-        printf("This function was expecting 2 arguments:\nSample Call:\n\t./spell_check /path/to/dictionary.txt /path/to/input.txt\n");
+        printf("This function was expecting 2 arguments:\nSample Call:\n\t./spell_check /path/to/input.txt /path/to/dictionary.txt\n");
         return 0;
     }
     hashmap_t hashtable[HASH_SIZE];
-    load_dictionary(argv[1], hashtable);
+    load_dictionary(argv[2], hashtable);
     char *misspelled[MAX_MISSPELLED];
-    FILE *fp = fopen(argv[2], "r");
+    FILE *fp = fopen(argv[1], "r");
     int num_misspelled = check_words(fp, hashtable, misspelled);
     printf("There were %d misspelled words in your input text.\n", num_misspelled);
     printf("Misspelled Words:\n");
