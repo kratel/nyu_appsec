@@ -52,7 +52,7 @@ int check_words(FILE* fp, hashmap_t hashtable[], char * misspelled[]){
 	trunc_suffix = tr;
 	trunc_suffix = "_TRUNC";
 	// int malloc_counter = 0;
-	while ((c = fgetc(fp)) != EOF){
+	while ((c = fgetc(fp)) != EOF || counter != 0){
 		if (num_misspelled >= MAX_MISSPELLED){
 			// Reached max limit
 			break;
@@ -75,8 +75,9 @@ int check_words(FILE* fp, hashmap_t hashtable[], char * misspelled[]){
 			counter = 0;
 		}
 		/* check if c is \r \n \t or whitespace which means end of word
-		   and that counter is not 0 meaning we have a word. */
-		if (counter != 0 && (c == '\r' || c == '\n' || c == '\t' || c == ' ')){
+		   and that counter is not 0 meaning we have a word.
+		   If reached EOF do final check if we currently have a word.*/
+		if (counter != 0 && (c == '\r' || c == '\n' || c == '\t' || c == ' ' || c == EOF)){
 			/* check word */
 			word[counter] = '\0';
 			char *b = strip_punct(word);
