@@ -1,8 +1,5 @@
 language: c
 compiler: gcc
-env:
-  global:
-    - CODECOV_TOKEN=77057570-d7ed-4e6b-97a5-3c806393aac9
 
 before_install:
 - make get-deps
