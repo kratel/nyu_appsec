@@ -39,8 +39,6 @@ main(int argc, char *argv[])
     char *misspelled[MAX_MISSPELLED];
     FILE *fp = fopen(argv[1], "r");
     int num_misspelled = check_words(fp, hashtable, misspelled);
-    printf("There were %d misspelled words in your input text.\n", num_misspelled);
-    printf("Misspelled Words:\n");
     for (int i = 0; i < num_misspelled; i++){
         printf("%s\n", misspelled[i]);
     }
