@@ -1,6 +1,6 @@
 # Assignment 1
 
-[![Build Status](https://travis-ci.com/kratel/nyu_appsec.svg?token=9hqx4ysaqwyc5JJXpgtm&branch=master)](https://travis-ci.com/kratel/nyu_appsec)
+[![Build Status](https://travis-ci.org/kratel/nyu_appsec.svg?branch=master)](https://travis-ci.org/kratel/nyu_appsec)
 
 [![codecov](https://codecov.io/gh/kratel/nyu_appsec/branch/master/graph/badge.svg?token=NKjVKkhy2N)](https://codecov.io/gh/kratel/nyu_appsec)
 
