@@ -14,6 +14,7 @@
 #define TESTINPUT5 "inputs/test5.txt"
 #define TESTINPUT6 "inputs/test6.txt"
 #define TESTINPUT7 "inputs/test7.txt"
+#define TESTINPUT8 "inputs/test8.txt"
 
 START_TEST(test_dictionary_normal)
 {
@@ -115,6 +116,18 @@ START_TEST(test_check_words_normal)
     fclose(fp);
     // Test how a pure punctuation word acts, should be ignored
     fp = fopen(TESTINPUT3, "r");
+    num_misspelled = check_words(fp, hashtable, misspelled);
+    ck_assert(num_misspelled == 3);
+    test = strlen(misspelled[0]) == strlen(expected[0]);
+    len1 = strlen(misspelled[0]);
+    len2 = strlen(expected[0]);
+    ck_assert_msg(test, "%d!=%d", len1, len2);
+    ck_assert_msg(strcmp(misspelled[0], expected[0]) == 0);
+    ck_assert_msg(strcmp(misspelled[1], expected[1]) == 0);
+    ck_assert_msg(strcmp(misspelled[2], expected[2]) == 0);
+    fclose(fp);
+    // Test how an input list ending on the word, not newline, is handled.
+    fp = fopen(TESTINPUT8, "r");
     num_misspelled = check_words(fp, hashtable, misspelled);
     ck_assert(num_misspelled == 3);
     test = strlen(misspelled[0]) == strlen(expected[0]);
