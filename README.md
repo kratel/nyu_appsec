@@ -38,7 +38,7 @@ make prog
 
 Both are equivalent, and this will produce an executable called `spell_check`. This executable expects two command line arguments.
 
-The first argument is an input text file that will have its words checked. The second argument should be a wordlist text file to act as a dictionary of correctly spelled words. The program outputs how many words were misspelled in the input file.
+The first argument is an input text file that will have its words checked. The second argument should be a wordlist text file to act as a dictionary of correctly spelled words. The program outputs words that were misspelled in the input file.
 
 Sample usage using the files included in this repo:
 
@@ -48,8 +48,6 @@ Sample usage using the files included in this repo:
 
 Output:
 ```text
-There were 3 misspelled words in your input text.
-Misspelled Words:
 sogn
 skyn
 betta
